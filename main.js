@@ -2,12 +2,18 @@
 const BIP39 = require("bip39")
 const hdkey = require('ethereumjs-wallet/hdkey')
 const Wallet = require('ethereumjs-wallet')
+const keccak256 = require('js-sha3').keccak256
+const EthereumTx = require('ethereumjs-tx')
 
 
 
 // Add functions here
-function generateMnemonic(mnemonic) {
-    return BIP39.generateMnemonic(mnemonic)
+function generateMnemonic() {
+    return BIP39.generateMnemonic()
+}
+
+function generateSeed(mnemonic) {
+    return BIP39.mnemonicToSeed(mnemonic)
 }
 
 function generatePrivKey(mnemonic) {
@@ -20,6 +26,22 @@ function derivePubKey(privKey) {
     return wallet.getPublicKey()
 }
 
+function deriveEthAddress(pubKey) {
+    const address = keccak256(pubKey) // keccak256 hash of  publicKey
+        // Get the last 20 bytes of the public key
+    console.log(address)
+    return "0x" + address.substring(address.length - 40, address.length)
+}
+
+function signTx(privKey, txData) {
+    const tx = new EthereumTx(txData)
+    tx.sign(privKey)
+    return tx
+}
+
+function getSignerAddress(signedTx) {
+    return "0x" + signedTx.getSenderAddress().toString('hex')
+}
 /*
 
 Do not edit code below this line.

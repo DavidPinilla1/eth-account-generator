@@ -45,7 +45,7 @@ function generateSeed(mnemonic){
 
 Using this mnemonic as a source of randomness, you can now create signing keypair.
 
-To generate a private key from the hex seed, we will to use the [ethereumjs-wallet library](https://github.com/ethereumjs/ethereumjs-wallet)
+To generate a private key from the hex seed, we will use the [ethereumjs-wallet library](https://github.com/ethereumjs/ethereumjs-wallet)
 ```javascript
 const hdkey = require('ethereumjs-wallet/hdkey')
 ```
