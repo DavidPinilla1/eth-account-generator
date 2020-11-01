@@ -2,6 +2,7 @@
 // Add imports here
 const BIP39 = require("bip39")
 const hdkey = require('ethereumjs-wallet/hdkey')
+const Wallet = require('ethereumjs-wallet')
 
 
 
@@ -10,7 +11,15 @@ function generateMnemonic(mnemonic) {
     return BIP39.generateMnemonic(mnemonic)
 }
 
+function generatePrivKey(mnemonic) {
+    const seed = generateSeed(mnemonic)
+    return hdkey.fromMasterSeed(seed).derivePath(`m/44'/60'/0'/0/0`).getWallet().getPrivateKey()
+}
 
+function derivePubKey(privKey) {
+    const wallet = Wallet.fromPrivateKey(privKey)
+    return wallet.getPublicKey()
+}
 
 /*
 
@@ -62,7 +71,7 @@ var mnemonicVue = new Vue({
         }
     }
 })
-},{"bip39":22,"ethereumjs-wallet/hdkey":149}],2:[function(require,module,exports){
+},{"bip39":22,"ethereumjs-wallet":150,"ethereumjs-wallet/hdkey":149}],2:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
